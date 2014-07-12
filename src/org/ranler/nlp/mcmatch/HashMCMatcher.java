@@ -64,7 +64,7 @@ public class HashMCMatcher implements MCMatcherInterface {
 	@Override
 	public List<WordClassInfo> matchWords(String str) {
 		// split the str and get offset for every word
-		str = str.replaceAll("(,|\\.|')", "").replaceAll("(\\r|\\n)", "");
+		str = str.replaceAll("(,|\\.|')", " ").replaceAll("(\\r|\\n)", "");
 		String[] words = str.split(" ");
 		int[] offsets = new int[words.length];
 		for (int i=1; i<offsets.length; ++i) {
@@ -93,6 +93,7 @@ public class HashMCMatcher implements MCMatcherInterface {
 									                             offsets[j],
 									                             str
 																));
+							j += word.split(" ").length - 1;
 							break;
 						}
 					}
@@ -130,10 +131,10 @@ public class HashMCMatcher implements MCMatcherInterface {
 			System.out.println(wci);
 		}
 		
-		System.out.println(System.currentTimeMillis()+"ms");
+		long beginTime = System.currentTimeMillis();
 		for (int i=0; i<10000;i++)
 			m.matchWords(sen2);
-		System.out.println(System.currentTimeMillis()+"ms");
+		System.out.println((System.currentTimeMillis() - beginTime)+"ms");
 
 
 	}
